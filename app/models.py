@@ -18,6 +18,13 @@ class Todo(BaseModel):
     date: datetime
 
 
+class Product(BaseModel):
+    id: int
+    title: str
+    price: int
+    quantity: int
+
+
 def new() -> list[Todo]:
     return [
         Todo(id=1, title="Todo 1", is_important=False, date=datetime.now()),
