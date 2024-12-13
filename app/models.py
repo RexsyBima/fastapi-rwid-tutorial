@@ -25,6 +25,12 @@ class Product(BaseModel):
     quantity: int
 
 
+class User(BaseModel):
+    username: str
+    password: str
+    login_at: datetime
+
+
 def new() -> list[Todo]:
     return [
         Todo(id=1, title="Todo 1", is_important=False, date=datetime.now()),
