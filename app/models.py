@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
+from sqlmodel import SQLModel, create_engine, Field
 
 
 class Event(BaseModel):
@@ -18,11 +19,23 @@ class Todo(BaseModel):
     date: datetime
 
 
-class Product(BaseModel):
-    id: int
-    title: str
-    price: int
-    quantity: int
+class Product(SQLModel, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    title: str = Field(index=True)
+    price: int = Field(ge=0.0)
+    quantity: int = Field(ge=0.0)
+
+    model_config = {  # type: ignore
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "title": "Foo",
+                    "price": 1000,
+                    "quantity": 1,
+                }
+            ]
+        }
+    }
 
 
 class User(BaseModel):
@@ -59,3 +72,14 @@ def new() -> list[Todo]:
 
 def new_todo(id: int) -> Todo:
     return Todo(id=id, title=f"Todo {id}", is_important=True, date=datetime.now())
+
+
+sqlite_filename = "database.db"
+sqlite_url = f"sqlite:///{sqlite_filename}"
+
+connect_args = {"check_same_thread": False}
+engine = create_engine(sqlite_url, echo=True, connect_args=connect_args)
+
+
+def create_db_and_tables():
+    SQLModel.metadata.create_all(engine)

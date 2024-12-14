@@ -9,8 +9,7 @@ from app import app
 # query, path, body, header parameter
 # app.include_router(todo.router)
 # app.include_router(event.router)
-app.include_router(product.router, dependencies=[
-                   Depends(query_parameter_function)])
+app.include_router(product.router)
 app.include_router(user.router)
 app.include_router(private.router)
 

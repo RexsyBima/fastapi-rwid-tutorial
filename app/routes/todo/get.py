@@ -17,7 +17,7 @@ def get_todo(items_id: Annotated[int, Path(ge=1)]):
 
 
 @router.get("/many/{items}", status_code=status.HTTP_200_OK)
-def get_todos(items: Annotated[int, Path(ge=1, )], response: Response):
+def get_todos(items: Annotated[int, Path(ge=1)], response: Response):
     if items > len(data):
         response.status_code = status.HTTP_400_BAD_REQUEST
         return {"Error": "Invalid ID"}
