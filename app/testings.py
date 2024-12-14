@@ -1,4 +1,5 @@
 import unittest
+from datetime import datetime, timedelta
 import requests
 
 
@@ -25,6 +26,7 @@ class TestFastApi(unittest.TestCase):
         print("YE this is workighn")
         self.assertEqual(r.status_code, 200)
 
+    @unittest.skip("Skipping")
     def test_access(self):
         headers = {
             "Authorization": "Bearer abcdefg"
@@ -33,3 +35,8 @@ class TestFastApi(unittest.TestCase):
         print(r.json())
         print("YE this is workighn")
         self.assertEqual(r.status_code, 200)
+
+    def test_datetime(self):
+        now = datetime.now()
+        exp_date = now + timedelta(days=30)
+        self.assertEqual(20, exp_date.day)

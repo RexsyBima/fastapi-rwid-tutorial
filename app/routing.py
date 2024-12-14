@@ -1,7 +1,7 @@
 # from .routes.todo import router as todo_router
 # from .routes.event import router as event_router
-from .routes import todo, event, product, user, private, auth
-from .routes.depends import query_parameter_function
+from .routes import product, user, private, auth
+from .depends import query_parameter_function
 from fastapi import Depends
 
 from app import app
