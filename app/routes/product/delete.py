@@ -1,9 +1,9 @@
 from typing import Annotated
 from . import router, products
-from fastapi import APIRouter, Path, status, Response, HTTPException
+from fastapi import Path, status, Response, HTTPException
 
 
-@router.delete("/todo/{item_id}", status_code=status.HTTP_202_ACCEPTED)
+@router.delete("/remove/{item_id}", status_code=status.HTTP_202_ACCEPTED)
 def remove_products(item_id: Annotated[int, Path(ge=1, le=len(products))], response: Response) -> int:
     # 0 1 2 3 4 5
     if item_id > len(products):

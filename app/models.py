@@ -3,22 +3,6 @@ from datetime import datetime
 from sqlmodel import SQLModel, create_engine, Field
 
 
-class Event(BaseModel):
-    name: str
-
-
-class Item(BaseModel):
-    name: str
-
-
-class Todo(BaseModel):
-    id: int
-    title: str
-    is_important: bool
-    is_completed: bool = False
-    date: datetime
-
-
 class Product(SQLModel, table=True):
     id: int | None = Field(default=None, primary_key=True)
     title: str = Field(index=True)
@@ -38,15 +22,13 @@ class Product(SQLModel, table=True):
     }
 
 
-class User(BaseModel):
-    username: str
-    password: str
-    login_at: datetime
-    is_active: bool
-
-
-class UserDB(User):
-    hashed_password: str
+class User(SQLModel, table=True):
+    id: int | None = Field(default=None, primary_key=True)
+    username: str = Field(unique=True)
+    email: str = Field(unique=True)
+    password: str  # hashed password
+    login_at: datetime | None = Field(default=None)
+    is_active: bool = Field(default=False)
 
 
 class Token(BaseModel):
@@ -56,22 +38,6 @@ class Token(BaseModel):
 
 class TokenData(BaseModel):
     username: str | None = None
-
-
-def new() -> list[Todo]:
-    return [
-        Todo(id=1, title="Todo 1", is_important=False, date=datetime.now()),
-        Todo(id=2, title="Todo 2", is_important=False, date=datetime.now()),
-        Todo(id=3, title="Todo 3", is_important=True, date=datetime.now()),
-        Todo(id=4, title="Todo 4", is_important=True, date=datetime.now()),
-        Todo(id=5, title="Todo 5", is_important=True, date=datetime.now()),
-        Todo(id=6, title="Todo 6", is_important=True, date=datetime.now()),
-        Todo(id=7, title="Todo 7", is_important=True, date=datetime.now()),
-    ]
-
-
-def new_todo(id: int) -> Todo:
-    return Todo(id=id, title=f"Todo {id}", is_important=True, date=datetime.now())
 
 
 sqlite_filename = "database.db"

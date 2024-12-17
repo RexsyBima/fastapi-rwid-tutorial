@@ -1,6 +1,5 @@
 from app.models import Product
 from typing import Annotated
-from app import data
 from fastapi import APIRouter, Response, status, Path, Body
 
 from . import router, products

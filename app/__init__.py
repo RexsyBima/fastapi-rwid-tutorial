@@ -2,9 +2,8 @@ from fastapi import FastAPI
 import os
 from fastapi.security import OAuth2PasswordBearer
 from passlib.context import CryptContext
-from .models import new, create_db_and_tables
+from .models import create_db_and_tables
 
-data = new()
 app = FastAPI()
 ALGORITHM = "HS256"  # menandakan bahawa VARIABELNYA JANGAN SAMPAI DIGANTI
 # menandakan bahawa VARIABELNYA JANGAN SAMPAI DIGANTI
