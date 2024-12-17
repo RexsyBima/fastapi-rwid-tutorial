@@ -18,4 +18,5 @@ def on_startup():
     create_db_and_tables()
 
 
+from . import admin  # noqa
 from . import routing  # noqa

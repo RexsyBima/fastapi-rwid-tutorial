@@ -19,6 +19,8 @@ def hello_token(token: Annotated[str, Depends(oauth2_scheme)]):
 
 @app.post('/token')
 def login_for_access_token(form_data: Annotated[OAuth2PasswordRequestForm, Depends()]) -> Token:
+    # TODO: fix authentication flow... now using database
+    # TODO: unrelated, calculate the total price of user cart products
     user = authenticate_user(users, form_data.username, form_data.password)
     if not user:
         raise HTTPException(
