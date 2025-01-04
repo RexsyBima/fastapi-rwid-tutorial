@@ -16,11 +16,16 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 @app.on_event("startup")
 def on_startup():
     from app.models import create_db_and_tables, session, User
+    from sqlmodel import select
     from app.enums import Role
     from app.utils import hash_password
 
     password = "password"
     create_db_and_tables()
+    isadminexists = session.exec(select(User).where(
+        User.username == "admin")).first()
+    if isadminexists:
+        return
     user = User(username="admin", email="admin",
                 password=hash_password(password), role=Role.admin)
     session.add(user)
