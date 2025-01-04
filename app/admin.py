@@ -57,8 +57,6 @@ class UserAdmin(ModelView, model=User):
         if user.password != data['password']:  # type: ignore
             data['password'] = hash_password(data['password'])
         return await super().update_model(request, pk, data)
-        # $2b$12$SwtLBjSp3hczqVeO03p26uhkKaGZTXLYmEfboW7/MFkGqfqj7XTzS
-        # $2b$12$TpRF8IBpvP.yOLEl0bEEs.cRzAxd1jFpv3K.zyZnuxtbKds0KrCSy
 
     async def on_model_delete(self, model: User, request: Request) -> None:
         # send_email(model.email)
