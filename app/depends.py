@@ -1,14 +1,14 @@
 from fastapi import Query, Depends
+from app.models import User, session
 from fastapi import status
 from app import SECRET_KEY, ALGORITHM
 from .utils import get_user
-from .db import users
 import jwt
 from jwt.exceptions import InvalidTokenError
 from app import oauth2_scheme
 from datetime import datetime
 from .models import User, TokenData, engine
-from sqlmodel import Session
+from sqlmodel import Session, select
 from fastapi import Request, HTTPException
 from typing import Annotated
 
@@ -35,12 +35,14 @@ def allow_private_view(request: Request):
 
 
 def decode_token(token):  # fake decode token
+    # UNUSED
     return User(
-        username="user1", password="user1", login_at=datetime.now(), is_active=True
+        username="user1", password="user1", login_at=datetime.now(), is_active=True, email="someemail@gmail.com"
     )
 
 
 def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
+    # return user
     http_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -54,7 +56,8 @@ def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):
         token_data = TokenData(username=username)
     except InvalidTokenError:
         raise http_exception
-    user = get_user(users=users, username=token_data.username)
+    user = session.exec(select(User).where(
+        User.username == token_data.username)).first()
     if user is None:
         raise http_exception
     return user

@@ -1,5 +1,8 @@
 import unittest
 from datetime import datetime, timedelta
+
+# from app.models import Cart, session, select
+# session.exec(select(Cart)).where(Cart.user == user).all()
 import requests
 
 
