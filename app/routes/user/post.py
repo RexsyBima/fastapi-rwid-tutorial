@@ -18,7 +18,7 @@ def register(form: Annotated[RegisterForm, Form()], session: Annotated[Session, 
     if form.password1 != form.password2:
         raise HTTPException(status_code=400, detail="Passwords do not match")
     user = session.exec(select(User).where(
-        User.username == form.username and User.email == form.email)).first()
+        User.username == form.username or User.email == form.email)).first()
     if user:
         raise HTTPException(
             status_code=400, detail="Username or email already exists")
